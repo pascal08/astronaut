@@ -1,12 +1,14 @@
 import * as p5 from 'p5';
-import { Star } from '../Core/star';
+import { Star } from '../../Core/star';
+import { Drawer } from '../drawer.abstract';
 
-export class StarDrawer
+export class StarDrawer extends Drawer
 {
     private stars: Array<Star>;
     private p5: p5.p5InstanceExtensions;
 
     constructor(stars: Array<Star>, p5: p5) {
+        super();
         this.stars = stars;
         this.p5 = p5;
     }

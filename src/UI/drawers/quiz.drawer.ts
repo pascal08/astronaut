@@ -1,9 +1,10 @@
-import { Quiz } from '../Core/quiz';
+import { Quiz } from '../../Core/quiz';
 import * as p5 from 'p5';
-import { Canvas } from '../Core/canvas';
-import { GameState } from '../Application/game.state';
+import { Canvas } from '../../Core/canvas';
+import { GameState } from '../../Application/game.state';
+import { Drawer } from '../drawer.abstract';
 
-export class QuizDrawer
+export class QuizDrawer extends Drawer
 {
     private quiz: Quiz;
     private canvas: Canvas;
@@ -11,6 +12,7 @@ export class QuizDrawer
     private answerInput: null|p5.Element;
 
     constructor(quiz: Quiz, p5: p5, canvas: Canvas) {
+        super();
         this.canvas = canvas;
         this.quiz = quiz;
         this.p5 = p5;

@@ -6,7 +6,7 @@ export class Quiz
     private questionNumber: number;
     private rightAnswerCallbacks: Array<() => void> = [];
     private falseAnswerCallbacks: Array<() => void> = [];
-    public finished: boolean = false;
+    public finished = false;
 
     constructor(questions: Array<Question>) {
         this.questions = questions;

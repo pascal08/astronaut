@@ -1,3 +1,8 @@
+interface Vector {
+  x: number;
+  y: number;
+}
+
 export class Rocket {
   private spaceWidth: number;
   private spaceHeight: number;
@@ -13,69 +18,94 @@ export class Rocket {
     this.x = spaceWidth / 2;
     this.y = spaceHeight / 2;
     this._angle = 0;
-    this._speed = 2;
+    this._speed = 1;
     this.driftFactor = 1;
   }
 
-  goLeft() {
-    this._angle -= this._speed / 20;
+  adjustOffsetX(dx: number): void {
+    this.x += dx;
+
+    if (this.x < 0) {
+      this.x = 0;
+    }
+
+    if (this.x > this.spaceWidth) {
+      this.x = this.spaceWidth;
+    }
+  }
+
+  adjustOffsetY(dy: number): void {
+    this.y += dy;
+
+    if (this.y < 0) {
+      this.y = 0;
+    }
+
+    if (this.y > this.spaceHeight) {
+      this.y = this.spaceHeight;
+    }
+  }
+
+  goLeft(): void {
+    this._angle -= this._speed / 10;
 
     this.drift();
   }
 
-  goUp() {
-    let {as, cs} = this.angles();
+  goRight(): void {
+    this._angle += this._speed / 10;
 
-    this.x += as;
-    this.y -= cs;
+    this.drift();
+  }
+
+  goUp(): void {
+    const {x, y} = this.speedVector();
+
+    this.adjustOffsetX(x);
+    this.adjustOffsetY(-y);
 
     this.driftFactor = 1;
 
     this.drift();
   }
 
-  goRight() {
-    this._angle += this._speed / 20;
+  goDown(): void {
+    const {x, y} = this.speedVector();
+
+    this.adjustOffsetX(-x / 2);
+    this.adjustOffsetY(y / 2);
 
     this.drift();
   }
 
-  goDown() {
-    let {as, cs} = this.angles();
+  drift(): void {
+    const {x, y} = this.speedVector();
 
-    this.x -= as / 2;
-    this.y += cs / 2;
+    this.adjustOffsetX(x / this.driftFactor);
+    this.adjustOffsetY(-y / this.driftFactor);
 
-    this.drift();
-  }
-
-  drift() {
-    let {as, cs} = this.angles();
-
-    this.x += as / this.driftFactor;
-    this.y -= cs / this.driftFactor;
     this.driftFactor += 0.05;
   }
 
-  private angles() {
-    let as = Math.sin(this._angle) * this._speed;
-    let cs = Math.cos(this._angle) * this._speed;
-    return {as, cs};
+  private speedVector(): Vector {
+    const x = Math.sin(this._angle) * this._speed;
+    const y = Math.cos(this._angle) * this._speed;
+    return {x, y};
   }
 
-  offsetX() {
+  offsetX(): number {
     return this.x;
   }
 
-  offsetY() {
+  offsetY(): number {
     return this.y;
   }
 
-  angle() {
+  angle(): number {
     return this._angle;
   }
 
-  update(timeElapsed: number) {
+  update(): void {
     this.drift();
   }
 }

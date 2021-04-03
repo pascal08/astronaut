@@ -1,21 +1,21 @@
-import { FuelTank } from '../Core/fuel-tank';
-import { CanvasOffset } from '../canvas-offset';
 import * as p5 from 'p5';
-import { Rocket } from '../Core/rocket';
+import { Rocket } from '../../Core/rocket';
+import { Drawer } from '../drawer.abstract';
 
-export class RocketDrawer
+export class RocketDrawer extends Drawer
 {
     private p5: p5;
     private rocket: Rocket;
 
     constructor(rocket: Rocket, p5: p5) {
+        super();
         this.rocket = rocket;
         this.p5 = p5;
     }
 
     draw(): void {
-        let o = 255;
-        let s = 1;
+        const o = 255;
+        const s = 0.5;
 
         this.p5.translate(this.rocket.offsetX(), this.rocket.offsetY());
         this.p5.scale(s);

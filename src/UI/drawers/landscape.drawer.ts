@@ -1,11 +1,13 @@
 import * as p5 from 'p5';
-import { Landscape } from '../Core/landscape';
+import { Landscape } from '../../Core/landscape';
+import { Drawer } from '../drawer.abstract';
 
-export class LandscapeDrawer {
+export class LandscapeDrawer extends Drawer {
     private landscape: Landscape;
     private p5: p5.p5InstanceExtensions;
 
     constructor(landscape: Landscape, p5: p5) {
+        super();
         this.landscape = landscape;
         this.p5 = p5;
     }

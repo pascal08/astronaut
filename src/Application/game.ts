@@ -7,7 +7,6 @@ import { Canvas } from '../Core/canvas';
 import { GameState } from './game.state';
 import { Drawer } from '../UI/drawer';
 import { Rocket } from '../Core/rocket';
-import { Ticker } from '../Core/ticker';
 import { KeyCode } from './key-code.enum';
 
 
@@ -19,11 +18,8 @@ export class Game {
 
   private readonly _canvasWidth = 600;
   private readonly _canvasHeight = 400;
-  private ticker: Ticker;
 
   constructor(p5: p5) {
-    this.ticker = new Ticker;
-
     this.canvas = new Canvas(this._canvasWidth, this._canvasHeight);
 
     this.state = this.startGame();
@@ -89,7 +85,7 @@ export class Game {
     }
   }
 
-  keyPressed(s: p5) {
+  keyPressed(s: p5): void {
     if (s.keyCode === KeyCode.ENTER && this.state.givenAnswer.length > 0) {
       this.state.quiz.submitAnswer(this.state.givenAnswer.join(''));
       if (this.state.quiz.finished) {
@@ -121,8 +117,8 @@ export class Game {
     return this.canvas.height;
   }
 
-  update(timeElapsed: number) {
-    this.state.rocket.update(timeElapsed);
+  update(): void {
+    this.state.rocket.update();
     // ToDo: implement for each object with state
   }
 }
