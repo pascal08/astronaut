@@ -1,5 +1,5 @@
-import { FuelTank } from './fuel-tank';
-import { CanvasOffset } from './canvas-offset';
+import { FuelTank } from '../Core/fuel-tank';
+import { CanvasOffset } from '../canvas-offset';
 import * as p5 from 'p5';
 
 export class FuelTankDrawer
@@ -15,26 +15,26 @@ export class FuelTankDrawer
         this.p5 = p5;
     }
 
-    draw() {
+    draw(): void {
         this.drawFuelTank();
         this.drawFuel();
     }
 
-    drawFuelTank() {
+    private drawFuelTank(): void {
         this.p5.stroke(50);
         this.p5.strokeWeight(4);
         this.p5.fill(255, 255, 255);
         this.p5.rect(this.canvasOffset.offsetX, this.canvasOffset.offsetY, this.fuelTank.width, this.fuelTank.height);
     }
 
-    drawFuel() {
+    private drawFuel(): void {
         this.p5.strokeWeight(1);
         this.p5.fill(255, 204, 0, 155);
         this.p5.beginShape();
         let xoff = this.yoff;
-        let averageFuelLevel = this.fuelTank.height - this.fuelTank.height / this.fuelTank.maxFuelLevel * this.fuelTank.fuelLevel;
-        let minFuelLevel = averageFuelLevel - this.fuelTank.fuelTurbulence;
-        let maxFuelLevel = averageFuelLevel + this.fuelTank.fuelTurbulence;
+        const averageFuelLevel = this.fuelTank.height - this.fuelTank.height / this.fuelTank.maxFuelLevel * this.fuelTank.fuelLevel;
+        const minFuelLevel = averageFuelLevel - this.fuelTank.fuelTurbulence;
+        const maxFuelLevel = averageFuelLevel + this.fuelTank.fuelTurbulence;
         for (let x = 0; x <= this.fuelTank.width; x += 10) {
             let y = this.p5.map(this.p5.noise(xoff, this.yoff), 0, 1, minFuelLevel, maxFuelLevel);
             if (y > this.fuelTank.height) {

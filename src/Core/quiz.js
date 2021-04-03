@@ -1,29 +1,23 @@
-import { Question } from './question';
-
-export class Quiz
-{
-    private questions: Array<Question>;
-    private questionNumber: number;
-    constructor(questions: Array<Question>) {
+var Quiz = (function () {
+    function Quiz(questions) {
         this.questions = questions;
         this.questionNumber = 1;
     }
-
-    currentQuestion() {
+    Quiz.prototype.currentQuestion = function () {
         return this.questions[this.questionNumber - 1].question;
-    }
-
-    correctAnswerToCurrentQuestion() {
+    };
+    Quiz.prototype.correctAnswerToCurrentQuestion = function () {
         return this.questions[this.questionNumber - 1].answer;
-    }
-
-    isCorrectAnswer(answer: string) {
+    };
+    Quiz.prototype.submitAnswer = function (answer) {
         return this.correctAnswerToCurrentQuestion() === answer;
-    }
-
-    nextQuestion() {
+    };
+    Quiz.prototype.nextQuestion = function () {
         if (this.questions.length + 1 > this.questionNumber - 1) {
             this.questionNumber++;
         }
-    }
-}
+    };
+    return Quiz;
+}());
+export { Quiz };
+//# sourceMappingURL=src/quiz.js.map

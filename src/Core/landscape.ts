@@ -13,7 +13,7 @@ export class Landscape {
     this.createCraters();
   }
 
-  createCraters() {
+  createCraters(): void {
     let offsetX;
 
     offsetX = -250;

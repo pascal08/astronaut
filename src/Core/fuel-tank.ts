@@ -7,11 +7,11 @@ export class FuelTank
     public readonly fuelTurbulence: number;
 
     constructor(
-      width: number,
-      height: number,
+      width: number, // ToDo: move to FuelTankDrawer
+      height: number,  // ToDo: move to FuelTankDrawer
       maxFuelLevel = 25,
-      initialFuelLevel = 1,
-      fuelTurbulence = 25
+      initialFuelLevel = 0,
+      fuelTurbulence = 25 // ToDo: move to FuelTankDrawer
     ) {
         this.width = width;
         this.height = height;
@@ -20,13 +20,13 @@ export class FuelTank
         this.fuelTurbulence = fuelTurbulence;
     }
 
-    addFuel() {
+    addFuel(): void {
         if (this.fuelLevel < this.maxFuelLevel) {
             this.fuelLevel++;
         }
     }
 
-    removeFuel() {
+    removeFuel(): void {
         if (this.fuelLevel > 1) {
             this.fuelLevel--;
         }
