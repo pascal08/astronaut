@@ -1,5 +1,5 @@
 import { GameState } from '../Application/game-state';
-import { Planet } from './planet';
+import { Planet } from '../UI/planet';
 import { Location } from './location';
 
 interface Vector {
@@ -38,6 +38,8 @@ export class Rocket {
 
   public _distanceToNearestPlanet: number = Infinity;
 
+  public readonly planets: Array<Planet> = [];
+
   constructor(spaceWidth: number, spaceHeight: number) {
     this.spaceWidth = spaceWidth;
     this.spaceHeight = spaceHeight;
@@ -52,6 +54,19 @@ export class Rocket {
     this._angle = 0;
     this._speed = 1;
     this._onPlanet = null;
+
+    this.planets.push(
+      new Planet(
+        new Location(200, 100),
+        30,
+      )
+    );
+    this.planets.push(
+      new Planet(
+        new Location(500, 300),
+        20,
+      ),
+    );
   }
 
   goLeft(): void {
@@ -122,8 +137,8 @@ export class Rocket {
   update(state: GameState): void {
     this.drift();
 
-    this.updateHasLanded(state.planets);
-    this.updateDistanceToNearestPlanet(state.planets);
+    this.updateHasLanded(this.planets);
+    this.updateDistanceToNearestPlanet(this.planets);
 
   }
 
@@ -141,8 +156,8 @@ export class Rocket {
     }
     this._distanceToNearestPlanet = smallestDistance;
 
-    const mappedDistance = (this._distanceToNearestPlanet) / (50) * (0.5 - 0.1) + 0.1;
-    this._scale = Math.max(Math.min(mappedDistance, 0.5), 0.1);
+    const mappedDistance = this._distanceToNearestPlanet / 50 * 0.5;
+    this._scale = Math.max(Math.min(mappedDistance, 0.5), 0);
   }
 
   private updateHasLanded(planets: Array<Planet>) {

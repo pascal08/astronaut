@@ -1,6 +1,6 @@
 import * as p5 from 'p5';
 import { Drawer } from '../drawer.abstract';
-import { Planet } from '../../Core/planet';
+import { Planet } from '../planet';
 import { GameState } from '../../Application/game-state';
 
 export class PlanetDrawer extends Drawer {

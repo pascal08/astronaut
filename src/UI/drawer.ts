@@ -24,9 +24,9 @@ export class Drawer {
     this.p5 = p5;
     this.canvas = canvas;
 
-    this.drawers.set('star', new StarDrawer(this.state.stars, this.p5));
-    this.drawers.set('planet', new PlanetDrawer(this.state.planets, this.p5));
-    this.drawers.set('landScape', new LandscapeDrawer(this.state.landScape, this.p5));
+    this.drawers.set('star', new StarDrawer(this.canvas, this.p5));
+    this.drawers.set('planet', new PlanetDrawer(this.state.rocket.planets, this.p5));
+    this.drawers.set('landScape', new LandscapeDrawer(this.canvas, this.p5));
     this.drawers.set('quiz', new QuizDrawer(this.state.quiz, this.p5, this.canvas));
     this.drawers.set('rocket', new RocketDrawer(this.state.rocket, this.p5));
   }

@@ -1,15 +1,27 @@
 import * as p5 from 'p5';
-import { Star } from '../../Core/star';
+import { Star } from '../star';
 import { Drawer } from '../drawer.abstract';
+import { Canvas } from '../../Core/canvas';
 
-export class StarDrawer extends Drawer
-{
-    private stars: Array<Star>;
+export class StarDrawer extends Drawer {
+    private stars: Array<Star> = [];
     private p5: p5.p5InstanceExtensions;
 
-    constructor(stars: Array<Star>, p5: p5) {
+    constructor(
+      canvas: Canvas,
+      p5: p5,
+    ) {
         super();
-        this.stars = stars;
+        for (let i = 0; i < 250; i++) {
+            this.stars.push(
+              new Star(
+                Math.floor(Math.random() * (canvas.width)),
+                Math.floor(Math.random() * (canvas.height)),
+                Math.floor(Math.random() * (3 - 2)) + 2,
+                Math.floor(Math.random() * (255 - 100)) + 100,
+              ),
+            );
+        }
         this.p5 = p5;
     }
 
