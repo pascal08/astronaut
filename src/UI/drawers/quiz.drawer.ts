@@ -1,8 +1,9 @@
 import { Quiz } from '../../Core/quiz';
 import * as p5 from 'p5';
 import { Canvas } from '../../Core/canvas';
-import { GameState } from '../../Application/game.state';
+import { GameState } from '../../Application/game-state';
 import { Drawer } from '../drawer.abstract';
+import { CanvasOffset } from '../../canvas-offset';
 
 export class QuizDrawer extends Drawer
 {
@@ -10,6 +11,11 @@ export class QuizDrawer extends Drawer
     private canvas: Canvas;
     private p5: p5.p5InstanceExtensions;
     private answerInput: null|p5.Element;
+
+    private readonly _fuelTurbulence: number = 25;
+    private readonly _fuelTankHeight = 300;
+    private readonly _fuelTankWidth = 30;
+    private yoff: number = 0;
 
     constructor(quiz: Quiz, p5: p5, canvas: Canvas) {
         super();
@@ -20,8 +26,48 @@ export class QuizDrawer extends Drawer
     }
 
     draw(state: GameState): void {
+        this.drawFuelBar();
         this.drawQuestion();
         this.drawGivenAnswer(state);
+    }
+
+    private drawFuelBar(): void {
+        this.drawFuelTank();
+        this.drawFuel();
+    }
+
+    private drawFuelTank(): void {
+        this.p5.stroke(50);
+        this.p5.strokeWeight(4);
+        this.p5.fill(255, 255, 255);
+        this.p5.rect(50, 50, 30, this._fuelTankHeight);
+    }
+
+    private drawFuel(): void {
+        const canvasOffset = new CanvasOffset(50, (this.canvas.height - this._fuelTankHeight) / 2);
+
+        this.p5.strokeWeight(1);
+        this.p5.fill(255, 204, 0, 155);
+        this.p5.beginShape();
+        let xoff = 0;
+        const averageFuelLevel = this._fuelTankHeight - this._fuelTankHeight / this.quiz.finishScore * this.quiz.score;
+        const minFuelLevel = averageFuelLevel - this._fuelTurbulence;
+        const maxFuelLevel = averageFuelLevel + this._fuelTurbulence;
+        for (let x = 0; x <= this._fuelTankWidth; x += 10) {
+            let y = this.p5.map(this.p5.noise(xoff, this.yoff), 0, 1, minFuelLevel, maxFuelLevel);
+            if (y > this._fuelTankHeight) {
+                y = this._fuelTankHeight;
+            }
+            if (y < 0) {
+                y = 0;
+            }
+            this.p5.vertex(canvasOffset.offsetX + x, canvasOffset.offsetY + y);
+            xoff += 0.05;
+        }
+        this.yoff += 0.01;
+        this.p5.vertex(canvasOffset.offsetX + this._fuelTankWidth, canvasOffset.offsetY + this._fuelTankHeight);
+        this.p5.vertex(canvasOffset.offsetX, canvasOffset.offsetY + this._fuelTankHeight);
+        this.p5.endShape(this.p5.CLOSE);
     }
 
     private drawQuestion(): void {

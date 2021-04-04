@@ -1,68 +1,28 @@
 import * as p5 from 'p5';
-import { Star } from '../Core/star';
-import { Landscape } from '../Core/landscape';
-import { QuizFactory } from '../Core/quiz.factory';
-import { FuelTank } from '../Core/fuel-tank';
 import { Canvas } from '../Core/canvas';
-import { GameState } from './game.state';
+import { GameState } from './game-state';
 import { Drawer } from '../UI/drawer';
-import { Rocket } from '../Core/rocket';
 import { KeyCode } from './key-code.enum';
-
+import { GameStateFactory } from './game-state.factory';
 
 export class Game {
 
-  private canvas: Canvas;
   private state: GameState;
   private drawer: Drawer;
 
   private readonly _canvasWidth = 600;
   private readonly _canvasHeight = 400;
+  private canvas: Canvas;
 
   constructor(p5: p5) {
     this.canvas = new Canvas(this._canvasWidth, this._canvasHeight);
 
-    this.state = this.startGame();
+    this.state = GameStateFactory.create(this.canvas);
 
     this.drawer = new Drawer(
       this.state,
       p5,
-      this.canvas
-    );
-  }
-
-  private startGame(): GameState {
-    const stars: Array<Star> = [];
-    for (let i = 0; i < 250; i++) {
-      stars.push(
-        new Star(
-          Math.floor(Math.random() * (this.canvas.width)),
-          Math.floor(Math.random() * (this.canvas.height)),
-          Math.floor(Math.random() * (3 - 2)) + 2,
-          Math.floor(Math.random() * (255 - 100)) + 100,
-        ),
-      );
-    }
-    const landScape = new Landscape(this.canvas.width / 2, this.canvas.height, this.canvas.width * 1.5, 200);
-    const numberOfQuestions = 1;
-    const quiz = QuizFactory.createQuiz(numberOfQuestions);
-    // ToDo: remove FuelTank from core (is a UI concern), move quiz progression to Quiz
-    const fuelTank = new FuelTank(30, 300, numberOfQuestions);
-    const rocket = new Rocket(this._canvasWidth, this._canvasHeight)
-
-    quiz.onRightAnswer(() => {
-      this.state.fuelTank.addFuel();
-    });
-    quiz.onFalseAnswer(() => {
-      this.state.fuelTank.removeFuel();
-    });
-
-    return new GameState(
-      fuelTank,
-      quiz,
-      stars,
-      landScape,
-      rocket
+      this.canvas,
     );
   }
 
@@ -118,7 +78,6 @@ export class Game {
   }
 
   update(): void {
-    this.state.rocket.update();
-    // ToDo: implement for each object with state
+    this.state.rocket.update(this.state);
   }
 }

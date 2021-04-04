@@ -27,7 +27,7 @@ export class FuelTank
     }
 
     removeFuel(): void {
-        if (this.fuelLevel > 1) {
+        if (this.fuelLevel > 0) {
             this.fuelLevel--;
         }
     }

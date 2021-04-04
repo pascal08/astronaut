@@ -2,6 +2,8 @@ import { Question } from './question';
 
 export class Quiz
 {
+    public readonly score: number;
+    public readonly finishScore: number
     private questions: Array<Question>;
     private questionNumber: number;
     private rightAnswerCallbacks: Array<() => void> = [];
@@ -11,6 +13,8 @@ export class Quiz
     constructor(questions: Array<Question>) {
         this.questions = questions;
         this.questionNumber = 1;
+        this.finishScore = 10;
+        this.score = 1;
     }
 
     currentQuestion(): string {

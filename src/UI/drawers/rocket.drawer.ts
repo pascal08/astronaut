@@ -14,19 +14,31 @@ export class RocketDrawer extends Drawer
     }
 
     draw(): void {
-        const o = 255;
-        const s = 0.5;
+        this.p5.fill('#ffffff');
+        this.p5.text(this.rocket._distanceToNearestPlanet, 10, 20);
+
+        this.p5.fill('#ffffff');
+        this.p5.text(this.rocket.scale(), 10, 40);
 
         this.p5.translate(this.rocket.offsetX(), this.rocket.offsetY());
-        this.p5.scale(s);
+        this.p5.scale(this.rocket.scale());
         this.p5.rotate(this.rocket.angle());
-        this.p5.fill(100, o);
+
+        this.p5.fill('#ffffff');
+        // this.p5.arc(0, -25, 25, 50, Math.PI, 2 * Math.PI);
+        // this.p5.triangle(-2.5, -48, 2.5, -48, 0, -75);
+        // this.p5.circle(0, -70, 3);
         this.p5.triangle(-12.5, -24, 12.5, -24, 0, -50);
         this.p5.rect(-12.5, -26, 25, 50, 3, 3);
-        this.p5.fill(0, 100, 100, o);
+
+        this.p5.fill('#ff0000');
         this.p5.triangle(-12, -10, -12, 20, -25, 30);
         this.p5.triangle(12, -10, 12, 20, 25, 30);
-        this.p5.fill(50, 255, 255, o);
-        this.p5.ellipse(0, -15, 15, 15);
+
+        this.p5.fill('#ff0000');
+        this.p5.ellipse(0, -20, 15, 15);
+
+        this.p5.fill('#9ef4ff');
+        this.p5.ellipse(0, -20, 12, 12);
     }
 }

@@ -1,6 +1,6 @@
 import { Togglable } from './togglable.interface';
 import { Drawable } from './drawable';
-import { GameState } from '../Application/game.state';
+import { GameState } from '../Application/game-state';
 
 export abstract class Drawer implements Togglable, Drawable {
   private isEnabled = false;
