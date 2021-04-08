@@ -32,7 +32,7 @@ export class Drawer {
   }
 
   draw(): void {
-    if (this.state.isLevelFinished) {
+    if (this.state.quiz.finished) {
       this.drawers.get('star')?.enable();
       this.drawers.get('rocket')?.enable();
       this.drawers.get('planet')?.enable();
