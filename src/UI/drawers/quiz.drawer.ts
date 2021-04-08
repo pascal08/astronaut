@@ -4,6 +4,7 @@ import { Canvas } from '../../Core/canvas';
 import { GameState } from '../../Application/game-state';
 import { Drawer } from '../drawer.abstract';
 import { CanvasOffset } from '../../canvas-offset';
+import { Assets } from '../../index';
 
 export class QuizDrawer extends Drawer
 {
@@ -16,16 +17,19 @@ export class QuizDrawer extends Drawer
     private readonly _fuelTankHeight = 300;
     private readonly _fuelTankWidth = 30;
     private yoff: number = 0;
+    private assets: Assets;
 
-    constructor(quiz: Quiz, p5: p5, canvas: Canvas) {
+    constructor(quiz: Quiz, p5: p5, canvas: Canvas, assets: Assets) {
         super();
         this.canvas = canvas;
         this.quiz = quiz;
         this.p5 = p5;
+        this.assets = assets;
         this.answerInput = null;
     }
 
     draw(state: GameState): void {
+        this.drawPlanet(state);
         this.drawFuelBar();
         this.drawQuestion();
         this.drawGivenAnswer(state);
@@ -83,6 +87,22 @@ export class QuizDrawer extends Drawer
         this.p5.fill('white');
         this.p5.textSize(50);
         this.p5.textAlign('left');
-        this.p5.text(state.givenAnswer.join(''), this.canvas.width / 2 + 100, this.canvas.height / 2);
+        this.p5.text(state.quiz.givenAnswer.join(''), this.canvas.width / 2 + 100, this.canvas.height / 2);
+    }
+
+    private drawPlanet(state: GameState) {
+        if (!state.currentPlanet) {
+            return;
+        }
+        let image = this.assets.images[state.currentPlanet.name];
+        let width = image.width / 2;
+        let height = image.height / 2;
+        this.p5.image(
+          image,
+          0 - width / 2 + this.canvas.width / 2,
+          0 - height / 2 + this.canvas.height + height / 2 * 0.6,
+          width,
+          height,
+        );
     }
 }

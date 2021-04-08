@@ -1,5 +1,3 @@
-import { Planet } from '../UI/planet';
-import { Location } from '../Core/location';
 import { QuizFactory } from '../Core/quiz.factory';
 import { Rocket } from '../Core/rocket';
 import { GameState } from './game-state';
@@ -7,9 +5,11 @@ import { Canvas } from '../Core/canvas';
 
 export class GameStateFactory {
 
+  private static _numberOfQuestions = 1;
+  private static _finishScore = 1;
+
   static create(canvas: Canvas): GameState {
-    const numberOfQuestions = 1;
-    const quiz = QuizFactory.createQuiz(numberOfQuestions);
+    const quiz = QuizFactory.createQuiz(this._numberOfQuestions, this._finishScore);
     const rocket = new Rocket(canvas.width, canvas.height)
 
     const state = new GameState(
@@ -18,5 +18,13 @@ export class GameStateFactory {
     );
 
     return state;
+  }
+
+  static resetQuiz(state: GameState) {
+    let quiz = QuizFactory.createQuiz(this._numberOfQuestions, this._finishScore);
+    return new GameState(
+      quiz,
+      state.rocket
+    );
   }
 }

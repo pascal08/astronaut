@@ -22,7 +22,7 @@ module.exports = {
   },
   devtool: "inline-source-map",
   devServer: {
-    contentBase: "./dist",
+    contentBase: [__dirname + "/dist", __dirname + "/assets"],
     hot: true
   },
   plugins: [

@@ -134,12 +134,11 @@ export class Rocket {
     return this._scale;
   }
 
-  update(state: GameState): void {
+  update(): void {
     this.drift();
 
     this.updateHasLanded(this.planets);
     this.updateDistanceToNearestPlanet(this.planets);
-
   }
 
   private updateDistanceToNearestPlanet(planets: Array<Planet>): void {

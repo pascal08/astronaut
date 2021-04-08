@@ -2,7 +2,7 @@ import { Question } from './question';
 import { Quiz } from './quiz';
 
 export class QuizFactory {
-  static createQuiz(numberOfQuestions: number): Quiz {
+  static createQuiz(numberOfQuestions: number, finishScore: number): Quiz {
     const questions = [];
     let firstNumber;
     let secondNumber;
@@ -14,6 +14,6 @@ export class QuizFactory {
       questions.push(new Question('' + firstNumber + ' + ' + secondNumber + ' = ', '' + answer));
     }
 
-    return new Quiz(questions);
+    return new Quiz(questions, finishScore);
   }
 }
