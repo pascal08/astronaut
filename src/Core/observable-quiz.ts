@@ -34,6 +34,14 @@ export class ObservableQuiz implements QuizInterface, ObservableInterface {
         this.quiz.removeFromAnswer();
     }
 
+    start(): void {
+        this.quiz.start();
+    }
+
+    isStarted(): boolean {
+        return this.quiz.isStarted();
+    }
+
     isFinished(): boolean {
         return this.quiz.isFinished();
     }

@@ -27,4 +27,6 @@ export interface RocketInterface {
   distanceToNearestPlanet(): number;
 
   planets(): Array<Planet>;
+
+  takeOff(): void;
 }

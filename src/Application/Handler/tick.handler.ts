@@ -5,18 +5,13 @@ export class TickHandler {
   handle(command: TickCommand) {
     let gameState = GameState.getInstance();
 
-    // console.log(gameState.quiz.finished);
-
-    if (gameState.isQuizFinished()) {
+    if (!gameState.isQuizStarted() || gameState.isQuizFinished()) {
       // gameState.leavePlanet();
       // gameState.resetQuiz();
       gameState.rocket.update();
       // return;
     }
-    // console.log(gameState.currentPlanet);
-
     // if (gameState.onPlanet) {
-    //   console.log('here');
     //   return;
     // }
   }

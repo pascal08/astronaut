@@ -35,7 +35,7 @@ export class Drawer {
     // this.p5.textSize(6);
     // this.p5.text(JSON.stringify(this.state.quiz, null, 2), 0, 0);
 
-    if (this.state.quiz.isFinished()) {
+    if (!this.state.quiz.isStarted() || this.state.quiz.isFinished()) {
       this.drawers.get('star')?.enable();
       this.drawers.get('rocket')?.enable();
       this.drawers.get('planet')?.enable();

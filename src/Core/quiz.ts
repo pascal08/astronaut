@@ -7,6 +7,7 @@ export class Quiz implements QuizInterface {
     private questions: Array<Question>;
     private questionNumber: number;
     private _isFinished = false;
+    private _isStarted = false;
     private _givenAnswer: string[];
 
     constructor(questions: Array<Question>, finishScore: number) {
@@ -28,6 +29,10 @@ export class Quiz implements QuizInterface {
         if (this._givenAnswer.length === 0) {
             return;
         }
+        if (!this._isStarted) {
+            this._isStarted = true;
+        }
+
         if (this.questions[this.questionNumber - 1].answer === this._givenAnswer.join('')) {
             this.score++;
         }
@@ -54,8 +59,16 @@ export class Quiz implements QuizInterface {
         this._givenAnswer.pop();
     }
 
+    start(): void {
+        this._isStarted = true;
+    }
+
     isFinished(): boolean {
         return this._isFinished;
+    }
+
+    isStarted(): boolean {
+        return this._isStarted;
     }
 
     percentageCompleted(): number {

@@ -1,6 +1,5 @@
 import { QuizFactory } from '../Core/quiz.factory';
 import { Rocket } from '../Core/rocket';
-import { Quiz } from '../Core/quiz';
 import { Game } from './game';
 import { ObservableRocket } from '../Core/observable-rocket';
 import { RocketLandedObserver } from './Observers/rocket-landed.observer';
@@ -34,7 +33,7 @@ export class GameState {
     if (!GameState.instance) {
       GameState.instance = new GameState(
         GameState.createQuiz(),
-        GameState.createRocker(),
+        GameState.createRocket(),
       );
     }
 
@@ -43,6 +42,7 @@ export class GameState {
 
   startNewQuiz() {
     GameState.instance.quiz = GameState.createQuiz();
+    GameState.instance.quiz.start();
   }
 
   isQuizFinished() {
@@ -50,12 +50,10 @@ export class GameState {
   }
 
   rocketTakeOff() {
-    let planet = GameState.instance.rocket.onPlanet();
-
-    console.log(planet);
+    GameState.instance.rocket.takeOff();
   }
 
-  private static createRocker() {
+  private static createRocket() {
     let rocket = new Rocket(
       Game._canvasWidth,
       Game._canvasHeight,
@@ -69,6 +67,7 @@ export class GameState {
     observableRocket.subscribe(
       rocketLandedObserver,
     );
+
     return observableRocket;
   }
 
@@ -85,5 +84,9 @@ export class GameState {
     );
 
     return observableQuiz;
+  }
+
+  isQuizStarted(): boolean {
+    return GameState.instance.quiz.isStarted();
   }
 }

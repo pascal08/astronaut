@@ -20,8 +20,10 @@ export class PlanetDrawer extends Drawer {
     for (let i = 0; i < this.planets.length; i++) {
       const planet = this.planets[i];
 
+      this.p5.push();
       this.p5.translate(-planet.radius(), -planet.radius());
       this.p5.image(this.assets.images[planet.name], planet.location().x, planet.location().y, planet.radius() * 2, planet.radius() * 2);
+      this.p5.pop();
     }
   }
 }

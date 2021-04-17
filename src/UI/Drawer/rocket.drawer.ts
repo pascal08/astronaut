@@ -13,12 +13,6 @@ export class RocketDrawer extends Drawer {
     }
 
     draw(): void {
-        this.p5.fill('#ffffff');
-        this.p5.text(this.rocket.distanceToNearestPlanet(), 10, 20);
-
-        this.p5.fill('#ffffff');
-        this.p5.text(this.rocket.scale(), 10, 40);
-
         this.p5.translate(this.rocket.offsetX(), this.rocket.offsetY());
         this.p5.scale(this.rocket.scale());
         this.p5.rotate(this.rocket.angle());

@@ -31,8 +31,8 @@ export class ObservableRocket implements RocketInterface, ObservableInterface {
     this.rocket.goDown();
   }
 
-  drift(): void {
-    this.rocket.drift();
+  takeOff(): void {
+    this.rocket.takeOff();
   }
 
   offsetX(): number {

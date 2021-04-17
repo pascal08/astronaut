@@ -1,4 +1,6 @@
 export interface QuizInterface {
+  isStarted(): boolean;
+
   isFinished(): boolean;
 
   currentQuestion(): string;
@@ -12,4 +14,6 @@ export interface QuizInterface {
   percentageCompleted(): number;
 
   givenAnswer(): string;
+
+  start(): void;
 }

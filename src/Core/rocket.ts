@@ -66,11 +66,11 @@ export class Rocket implements RocketInterface {
   }
 
   goLeft(): void {
-    this._angle -= this._speed / this._directionalSensitivityFactor;
+    this._angle = (this._angle - this._speed / this._directionalSensitivityFactor) % (2 * Math.PI);
   }
 
   goRight(): void {
-    this._angle += this._speed / this._directionalSensitivityFactor;
+    this._angle = (this._angle + this._speed / this._directionalSensitivityFactor) % (2 * Math.PI);
   }
 
   goUp(): void {
@@ -89,7 +89,7 @@ export class Rocket implements RocketInterface {
     }
   }
 
-  drift(): void {
+  private drift(): void {
     const {x, y} = this.speed();
 
     this.adjustOffsetX(x);
@@ -166,6 +166,20 @@ export class Rocket implements RocketInterface {
         this._onPlanet = planet;
       }
     }
+  }
+
+  takeOff(): void {
+    if (!this._onPlanet) {
+      return;
+    }
+
+    this._location = this._location.update(
+      this._onPlanet.location().x,
+      this._onPlanet.location().y - this._onPlanet.radius(),
+    );
+    this._onPlanet = null;
+    this._angle = 0;
+    this._speed = 0;
   }
 
   onPlanet(): Planet | null {
