@@ -1,19 +1,20 @@
 import { Question } from './question';
+import { QuizInterface } from './quiz.interface';
 
-export class Quiz {
+export class Quiz implements QuizInterface {
     public score: number;
     public readonly finishScore: number;
     private questions: Array<Question>;
     private questionNumber: number;
-    public finished = false;
-    public givenAnswer: string[];
+    private _isFinished = false;
+    private _givenAnswer: string[];
 
     constructor(questions: Array<Question>, finishScore: number) {
         this.questions = questions;
         this.questionNumber = 1;
         this.finishScore = finishScore;
         this.score = 0;
-        this.givenAnswer = [];
+        this._givenAnswer = [];
     }
 
     currentQuestion(): string {
@@ -21,20 +22,20 @@ export class Quiz {
     }
 
     submitAnswer(): void {
-        if (this.finished) {
+        if (this._isFinished) {
             return;
         }
-        if (this.givenAnswer.length === 0) {
+        if (this._givenAnswer.length === 0) {
             return;
         }
-        if (this.questions[this.questionNumber - 1].answer === this.givenAnswer.join('')) {
+        if (this.questions[this.questionNumber - 1].answer === this._givenAnswer.join('')) {
             this.score++;
         }
 
-        this.givenAnswer = [];
+        this._givenAnswer = [];
 
         if (this.questionNumber >= this.questions.length || this.score >= this.finishScore) {
-            this.finished = true;
+            this._isFinished = true;
             return;
         }
 
@@ -42,14 +43,27 @@ export class Quiz {
     }
 
     addToAnswer(digit: string) {
-        if (this.givenAnswer.length >= 2) {
+        if (this._givenAnswer.length >= 2) {
             return;
         }
 
-        this.givenAnswer.push(digit);
+        this._givenAnswer.push(digit);
     }
 
     removeFromAnswer() {
-        this.givenAnswer.pop();
+        this._givenAnswer.pop();
     }
+
+    isFinished(): boolean {
+        return this._isFinished;
+    }
+
+    percentageCompleted(): number {
+        return this.score / this.finishScore;
+    }
+
+    givenAnswer(): string {
+        return this._givenAnswer.join('');
+    }
+
 }

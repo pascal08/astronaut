@@ -6,11 +6,14 @@ import { ObservableRocket } from '../Core/observable-rocket';
 import { RocketLandedObserver } from './Observers/rocket-landed.observer';
 import { Planet } from '../Core/planet';
 import { RocketInterface } from '../Core/rocket.interface';
+import { ObservableQuiz } from '../Core/observable-quiz';
+import { QuizFinishedObserver } from './Observers/quiz-finished.observer';
+import { QuizInterface } from '../Core/quiz.interface';
 
 export class GameState {
 
   public readonly rocket: RocketInterface;
-  public quiz: Quiz;
+  public quiz: QuizInterface;
   public onPlanet: Planet | null;
 
   private static instance: GameState;
@@ -19,7 +22,7 @@ export class GameState {
   private static readonly _finishScore = 2;
 
   private constructor(
-    quiz: Quiz,
+    quiz: QuizInterface,
     rocket: RocketInterface,
   ) {
     this.rocket = rocket;
@@ -29,24 +32,9 @@ export class GameState {
 
   public static getInstance(): GameState {
     if (!GameState.instance) {
-      let rocket = new Rocket(
-        Game._canvasWidth,
-        Game._canvasHeight,
-      );
-      let quiz = GameState.createQuiz();
-
-      let rocketLandedObserver = new RocketLandedObserver();
-
-      let observableRocket = new ObservableRocket(
-        rocket
-      );
-      observableRocket.subscribe(
-        rocketLandedObserver
-      );
-
       GameState.instance = new GameState(
-        quiz,
-        observableRocket,
+        GameState.createQuiz(),
+        GameState.createRocker(),
       );
     }
 
@@ -54,14 +42,48 @@ export class GameState {
   }
 
   startNewQuiz() {
-    this.quiz = GameState.createQuiz();
+    GameState.instance.quiz = GameState.createQuiz();
   }
 
   isQuizFinished() {
-    return this.quiz.finished;
+    return GameState.instance.quiz.isFinished();
   }
 
-  private static createQuiz() {
-    return QuizFactory.createQuiz(this._numberOfQuestions, this._finishScore);
+  rocketTakeOff() {
+    let planet = GameState.instance.rocket.onPlanet();
+
+    console.log(planet);
+  }
+
+  private static createRocker() {
+    let rocket = new Rocket(
+      Game._canvasWidth,
+      Game._canvasHeight,
+    );
+
+    let observableRocket = new ObservableRocket(
+      rocket,
+    );
+
+    let rocketLandedObserver = new RocketLandedObserver();
+    observableRocket.subscribe(
+      rocketLandedObserver,
+    );
+    return observableRocket;
+  }
+
+  private static createQuiz(): QuizInterface {
+    let quiz = QuizFactory.createQuiz(this._numberOfQuestions, this._finishScore);
+
+    let observableQuiz = new ObservableQuiz(
+      quiz,
+    );
+
+    let quizFinishedObserver = new QuizFinishedObserver();
+    observableQuiz.subscribe(
+      quizFinishedObserver,
+    );
+
+    return observableQuiz;
   }
 }

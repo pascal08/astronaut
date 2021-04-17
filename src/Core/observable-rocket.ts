@@ -4,14 +4,15 @@ import { ObserverInterface } from './observer.interface';
 import { Planet } from './planet';
 import { RocketInterface } from './rocket.interface';
 import { VectorInterface } from './vector.interface';
+import { Observable } from './observable';
 
 export class ObservableRocket implements RocketInterface, ObservableInterface {
   private rocket: Rocket;
-  private observers: Array<ObserverInterface>;
+  private observable: ObservableInterface;
 
   constructor(rocket: Rocket) {
     this.rocket = rocket;
-    this.observers = [];
+    this.observable = new Observable();
   }
 
   goLeft(): void {
@@ -63,27 +64,15 @@ export class ObservableRocket implements RocketInterface, ObservableInterface {
   }
 
   publish(): void {
-    for (const observer of this.observers) {
-      observer.update(this);
-    }
+    this.observable.publish();
   }
 
   subscribe(observer: ObserverInterface): void {
-    const exists = this.observers.includes(observer);
-    if (exists) {
-      return;
-    }
-
-    this.observers.push(observer);
+    this.observable.subscribe(observer);
   }
 
   unsubscribe(observer: ObserverInterface): void {
-    const index = this.observers.indexOf(observer);
-    if (index === -1) {
-      return;
-    }
-
-    this.observers.splice(index, 1);
+    this.observable.unsubscribe(observer);
   }
 
   speed(): VectorInterface {

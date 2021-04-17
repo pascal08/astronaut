@@ -2,11 +2,12 @@ import { ObserverInterface } from '../../Core/observer.interface';
 import { ObservableInterface } from '../../Core/observable.interface';
 import { GameState } from '../game-state';
 
-export class RocketLandedObserver implements ObserverInterface {
+export class QuizFinishedObserver implements ObserverInterface {
   update(observable: ObservableInterface): void {
     let gameState = GameState.getInstance();
-    if (gameState.rocket.onPlanet() !== null && gameState.isQuizFinished()) {
-      gameState.startNewQuiz();
+    console.log(gameState.isQuizFinished());
+    if (gameState.isQuizFinished()) {
+      gameState.rocketTakeOff();
     }
   }
 

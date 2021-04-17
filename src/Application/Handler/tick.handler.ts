@@ -7,12 +7,12 @@ export class TickHandler {
 
     // console.log(gameState.quiz.finished);
 
-    // if (gameState.isQuizFinished()) {
+    if (gameState.isQuizFinished()) {
       // gameState.leavePlanet();
       // gameState.resetQuiz();
       gameState.rocket.update();
       // return;
-    // }
+    }
     // console.log(gameState.currentPlanet);
 
     // if (gameState.onPlanet) {

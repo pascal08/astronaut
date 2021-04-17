@@ -1,17 +1,16 @@
-import { Quiz } from '../../Core/quiz';
 import * as p5 from 'p5';
 import { Canvas } from '../../Core/canvas';
 import { GameState } from '../../Application/game-state';
 import { Drawer } from '../drawer.abstract';
 import { CanvasOffset } from '../../canvas-offset';
 import { Assets } from '../../index';
+import { QuizInterface } from '../../Core/quiz.interface';
 
-export class QuizDrawer extends Drawer
-{
-    private quiz: Quiz;
+export class QuizDrawer extends Drawer {
+    private quiz: QuizInterface;
     private canvas: Canvas;
     private p5: p5.p5InstanceExtensions;
-    private answerInput: null|p5.Element;
+    private answerInput: null | p5.Element;
 
     private readonly _fuelTurbulence: number = 25;
     private readonly _fuelTankHeight = 300;
@@ -19,7 +18,7 @@ export class QuizDrawer extends Drawer
     private yoff: number = 0;
     private assets: Assets;
 
-    constructor(quiz: Quiz, p5: p5, canvas: Canvas, assets: Assets) {
+    constructor(quiz: QuizInterface, p5: p5, canvas: Canvas, assets: Assets) {
         super();
         this.canvas = canvas;
         this.quiz = quiz;
@@ -56,7 +55,7 @@ export class QuizDrawer extends Drawer
         this.p5.fill(255, 204, 0, 155);
         this.p5.beginShape();
         let xoff = 0;
-        const averageFuelLevel = this._fuelTankHeight - this._fuelTankHeight / quiz.finishScore * quiz.score;
+        const averageFuelLevel = this._fuelTankHeight - this._fuelTankHeight * quiz.percentageCompleted();
         const minFuelLevel = averageFuelLevel - this._fuelTurbulence;
         const maxFuelLevel = averageFuelLevel + this._fuelTurbulence;
         for (let x = 0; x <= this._fuelTankWidth; x += 10) {
@@ -93,7 +92,7 @@ export class QuizDrawer extends Drawer
         this.p5.fill('white');
         this.p5.textSize(50);
         this.p5.textAlign('left');
-        this.p5.text(quiz.givenAnswer.join(''), this.canvas.width / 2 + 100, this.canvas.height / 2);
+        this.p5.text(quiz.givenAnswer(), this.canvas.width / 2 + 100, this.canvas.height / 2);
     }
 
     private drawPlanet() {
