@@ -1,11 +1,11 @@
 import * as p5 from 'p5';
-import { QuizDrawer } from './drawers/quiz.drawer';
-import { StarDrawer } from './drawers/star.drawer';
+import { QuizDrawer } from './Drawer/quiz.drawer';
+import { StarDrawer } from './Drawer/star.drawer';
 import { GameState } from '../Application/game-state';
 import { Canvas } from '../Core/canvas';
-import { RocketDrawer } from './drawers/rocket.drawer';
+import { RocketDrawer } from './Drawer/rocket.drawer';
 import { Drawer as DrawerAbstract } from './drawer.abstract';
-import { PlanetDrawer } from './drawers/planet.drawer';
+import { PlanetDrawer } from './Drawer/planet.drawer';
 import { Assets } from '../index';
 
 export class Drawer {
@@ -16,22 +16,25 @@ export class Drawer {
   private canvas: Canvas;
 
   constructor(
-    state: GameState,
     p5: p5,
     canvas: Canvas,
     assets: Assets,
   ) {
-    this.state = state;
+    this.state = GameState.getInstance();
     this.p5 = p5;
     this.canvas = canvas;
 
     this.drawers.set('star', new StarDrawer(this.canvas, this.p5));
-    this.drawers.set('planet', new PlanetDrawer(this.state.rocket.planets, this.p5, assets));
+    this.drawers.set('planet', new PlanetDrawer(this.state.rocket.planets(), this.p5, assets));
     this.drawers.set('quiz', new QuizDrawer(this.state.quiz, this.p5, this.canvas, assets));
     this.drawers.set('rocket', new RocketDrawer(this.state.rocket, this.p5));
   }
 
   draw(): void {
+    // this.p5.fill('white');
+    // this.p5.textSize(6);
+    // this.p5.text(JSON.stringify(this.state.quiz, null, 2), 0, 0);
+
     if (this.state.quiz.finished) {
       this.drawers.get('star')?.enable();
       this.drawers.get('rocket')?.enable();

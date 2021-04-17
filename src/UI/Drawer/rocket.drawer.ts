@@ -1,13 +1,12 @@
 import * as p5 from 'p5';
-import { Rocket } from '../../Core/rocket';
 import { Drawer } from '../drawer.abstract';
+import { RocketInterface } from '../../Core/rocket.interface';
 
-export class RocketDrawer extends Drawer
-{
+export class RocketDrawer extends Drawer {
     private p5: p5;
-    private rocket: Rocket;
+    private rocket: RocketInterface;
 
-    constructor(rocket: Rocket, p5: p5) {
+    constructor(rocket: RocketInterface, p5: p5) {
         super();
         this.rocket = rocket;
         this.p5 = p5;
@@ -15,7 +14,7 @@ export class RocketDrawer extends Drawer
 
     draw(): void {
         this.p5.fill('#ffffff');
-        this.p5.text(this.rocket._distanceToNearestPlanet, 10, 20);
+        this.p5.text(this.rocket.distanceToNearestPlanet(), 10, 20);
 
         this.p5.fill('#ffffff');
         this.p5.text(this.rocket.scale(), 10, 40);

@@ -2,25 +2,37 @@ import * as p5 from 'p5';
 import { Canvas } from '../Core/canvas';
 import { GameState } from './game-state';
 import { Drawer } from '../UI/drawer';
-import { GameStateFactory } from './game-state.factory';
 import { Assets } from '../index';
+import { CommandInterface } from './command.interface';
+import { KeyDownCommand } from './Command/key-down.command';
+import { KeyRightCommand } from './Command/key-right.command';
+import { KeyUpCommand } from './Command/key-up.command';
+import { KeyLeftCommand } from './Command/key-left.command';
+import { BackspaceCommand } from './Command/backspace.command';
+import { EnterCommand } from './Command/enter.command';
+import { KeyNumericCommand } from './Command/key-numeric.command';
+import { KeyNumericHandler } from './Handler/key-numeric.handler';
+import { EnterHandler } from './Handler/enter.handler';
+import { BackspaceHandler } from './Handler/backspace.handler';
+import { KeyUpHandler } from './Handler/key-up.handler';
+import { KeyDownHandler } from './Handler/key-down.handler';
+import { KeyRightHandler } from './Handler/key-right.handler';
+import { KeyLeftHandler } from './Handler/key-left.handler';
+import { TickHandler } from './Handler/tick.handler';
+import { TickCommand } from './Command/tick.command';
 
 export class Game {
 
-  private state: GameState;
   private drawer: Drawer;
 
-  private readonly _canvasWidth = 600;
-  private readonly _canvasHeight = 400;
+  public static readonly _canvasWidth = 600;
+  public static readonly _canvasHeight = 400;
   private canvas: Canvas;
 
   constructor(p5: p5, assets: Assets) {
-    this.canvas = new Canvas(this._canvasWidth, this._canvasHeight);
-
-    this.state = GameStateFactory.create(this.canvas);
+    this.canvas = new Canvas(Game._canvasWidth, Game._canvasHeight);
 
     this.drawer = new Drawer(
-      this.state,
       p5,
       this.canvas,
       assets,
@@ -31,34 +43,6 @@ export class Game {
     this.drawer.draw();
   }
 
-  handleKeyDown() {
-    this.state.rocket.goDown();
-  }
-
-  handleKeyUp() {
-    this.state.rocket.goUp();
-  }
-
-  handleKeyLeft() {
-    this.state.rocket.goLeft();
-  }
-
-  handleKeyRight() {
-    this.state.rocket.goRight();
-  }
-
-  handleEnter() {
-    this.state.quiz.submitAnswer();
-  }
-
-  handleBackspace() {
-    this.state.quiz.removeFromAnswer();
-  }
-
-  handleNumber(digit: string) {
-    this.state.quiz.addToAnswer(digit);
-  }
-
   canvasWidth(): number {
     return this.canvas.width;
   }
@@ -67,13 +51,32 @@ export class Game {
     return this.canvas.height;
   }
 
-  onTick(): void {
-    if (this.state.quiz.finished) {
-      this.state.rocket.update();
-      this.state.currentPlanet = this.state.rocket.onPlanet();
-      if (this.state.currentPlanet) {
-        this.state = GameStateFactory.resetQuiz(this.state);
-      }
+  handleCommand(command: CommandInterface) {
+    if (command instanceof TickCommand) {
+      (new TickHandler()).handle(command);
     }
+    if (command instanceof KeyDownCommand) {
+      (new KeyDownHandler()).handle(command);
+    }
+    if (command instanceof KeyRightCommand) {
+      (new KeyRightHandler()).handle(command);
+    }
+    if (command instanceof KeyUpCommand) {
+      (new KeyUpHandler()).handle(command);
+    }
+    if (command instanceof KeyLeftCommand) {
+      (new KeyLeftHandler()).handle(command);
+    }
+    if (command instanceof BackspaceCommand) {
+      (new BackspaceHandler()).handle(command);
+    }
+    if (command instanceof EnterCommand) {
+      (new EnterHandler()).handle(command);
+    }
+    if (command instanceof KeyNumericCommand) {
+      (new KeyNumericHandler()).handle(command);
+    }
+    new TypeError('Command not supported.');
   }
+
 }

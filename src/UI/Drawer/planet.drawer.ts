@@ -1,8 +1,8 @@
 import * as p5 from 'p5';
 import { Drawer } from '../drawer.abstract';
-import { Planet } from '../planet';
 import { GameState } from '../../Application/game-state';
 import { Assets } from '../../index';
+import { Planet } from '../../Core/planet';
 
 export class PlanetDrawer extends Drawer {
   private planets: Array<Planet>;

@@ -29,10 +29,10 @@ export class QuizDrawer extends Drawer
     }
 
     draw(state: GameState): void {
-        this.drawPlanet(state);
+        this.drawPlanet();
         this.drawFuelBar();
         this.drawQuestion();
-        this.drawGivenAnswer(state);
+        this.drawGivenAnswer();
     }
 
     private drawFuelBar(): void {
@@ -48,13 +48,15 @@ export class QuizDrawer extends Drawer
     }
 
     private drawFuel(): void {
+        let quiz = GameState.getInstance().quiz;
+
         const canvasOffset = new CanvasOffset(50, (this.canvas.height - this._fuelTankHeight) / 2);
 
         this.p5.strokeWeight(1);
         this.p5.fill(255, 204, 0, 155);
         this.p5.beginShape();
         let xoff = 0;
-        const averageFuelLevel = this._fuelTankHeight - this._fuelTankHeight / this.quiz.finishScore * this.quiz.score;
+        const averageFuelLevel = this._fuelTankHeight - this._fuelTankHeight / quiz.finishScore * quiz.score;
         const minFuelLevel = averageFuelLevel - this._fuelTurbulence;
         const maxFuelLevel = averageFuelLevel + this._fuelTurbulence;
         for (let x = 0; x <= this._fuelTankWidth; x += 10) {
@@ -75,26 +77,32 @@ export class QuizDrawer extends Drawer
     }
 
     private drawQuestion(): void {
+        let quiz = GameState.getInstance().quiz;
+
         this.p5.strokeWeight(4);
         this.p5.fill('white');
         this.p5.textSize(50);
         this.p5.textAlign('center');
-        this.p5.text(this.quiz.currentQuestion(), this.canvas.width / 2, this.canvas.height / 2);
+        this.p5.text(quiz.currentQuestion(), this.canvas.width / 2, this.canvas.height / 2);
     }
 
-    private drawGivenAnswer(state: GameState): void {
+    private drawGivenAnswer(): void {
+        let quiz = GameState.getInstance().quiz;
+
         this.p5.strokeWeight(4);
         this.p5.fill('white');
         this.p5.textSize(50);
         this.p5.textAlign('left');
-        this.p5.text(state.quiz.givenAnswer.join(''), this.canvas.width / 2 + 100, this.canvas.height / 2);
+        this.p5.text(quiz.givenAnswer.join(''), this.canvas.width / 2 + 100, this.canvas.height / 2);
     }
 
-    private drawPlanet(state: GameState) {
-        if (!state.currentPlanet) {
+    private drawPlanet() {
+        let state = GameState.getInstance();
+
+        if (!state.onPlanet) {
             return;
         }
-        let image = this.assets.images[state.currentPlanet.name];
+        let image = this.assets.images[state.onPlanet.name];
         let width = image.width / 2;
         let height = image.height / 2;
         this.p5.image(

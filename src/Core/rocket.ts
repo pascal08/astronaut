@@ -1,13 +1,9 @@
-import { GameState } from '../Application/game-state';
-import { Planet } from '../UI/planet';
 import { Location } from './location';
+import { RocketInterface } from './rocket.interface';
+import { Planet } from './planet';
+import { VectorInterface } from './vector.interface';
 
-interface Vector {
-  x: number;
-  y: number;
-}
-
-export class Rocket {
+export class Rocket implements RocketInterface {
   private readonly _forwardThrottleFactor = 0.1;
 
   private readonly _reverseTrustFactor = 0.05;
@@ -36,9 +32,9 @@ export class Rocket {
   private spaceHeight: number;
   private _onPlanet: Planet | null;
 
-  public _distanceToNearestPlanet: number = Infinity;
+  private _distanceToNearestPlanet: number = Infinity;
 
-  public readonly planets: Array<Planet> = [];
+  private readonly _planets: Array<Planet> = [];
 
   constructor(spaceWidth: number, spaceHeight: number) {
     this.spaceWidth = spaceWidth;
@@ -55,13 +51,13 @@ export class Rocket {
     this._speed = 1;
     this._onPlanet = null;
 
-    this.planets.push(
+    this._planets.push(
       new Planet(
         new Location(200, 100),
         30,
       )
     );
-    this.planets.push(
+    this._planets.push(
       new Planet(
         new Location(500, 300),
         20,
@@ -112,7 +108,7 @@ export class Rocket {
     this._location = this._location.update(this._location.x, newY);
   }
 
-  private speed(): Vector {
+  speed(): VectorInterface {
     const x = Math.sin(this._angle) * this._speed;
     const y = Math.cos(this._angle) * this._speed;
     return {x, y};
@@ -137,8 +133,8 @@ export class Rocket {
   update(): void {
     this.drift();
 
-    this.updateHasLanded(this.planets);
-    this.updateDistanceToNearestPlanet(this.planets);
+    this.updateHasLanded(this._planets);
+    this.updateDistanceToNearestPlanet(this._planets);
   }
 
   private updateDistanceToNearestPlanet(planets: Array<Planet>): void {
@@ -174,5 +170,13 @@ export class Rocket {
 
   onPlanet(): Planet | null {
     return this._onPlanet;
+  }
+
+  distanceToNearestPlanet(): number {
+    return this._distanceToNearestPlanet;
+  }
+
+  planets(): Array<Planet> {
+    return this._planets;
   }
 }

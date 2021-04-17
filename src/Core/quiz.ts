@@ -24,11 +24,9 @@ export class Quiz {
         if (this.finished) {
             return;
         }
-
         if (this.givenAnswer.length === 0) {
             return;
         }
-
         if (this.questions[this.questionNumber - 1].answer === this.givenAnswer.join('')) {
             this.score++;
         }

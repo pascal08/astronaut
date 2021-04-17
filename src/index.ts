@@ -2,6 +2,14 @@ import * as p5 from 'p5';
 import 'p5/lib/addons/p5.dom';
 import { Game } from './Application/game';
 import { KeyCode } from './Application/key-code.enum';
+import { KeyDownCommand } from './Application/Command/key-down.command';
+import { KeyRightCommand } from './Application/Command/key-right.command';
+import { KeyUpCommand } from './Application/Command/key-up.command';
+import { KeyLeftCommand } from './Application/Command/key-left.command';
+import { EnterCommand } from './Application/Command/enter.command';
+import { BackspaceCommand } from './Application/Command/backspace.command';
+import { KeyNumericCommand } from './Application/Command/key-numeric.command';
+import { TickCommand } from './Application/Command/tick.command';
 
 export interface Assets {
   'images': { [key: string]: p5.Image }
@@ -33,33 +41,49 @@ const s = (s: p5) => {
     s.background(0);
 
     if (s.keyIsDown(KeyCode.LEFT_ARROW)) {
-      game.handleKeyLeft();
+      game.handleCommand(
+        new KeyLeftCommand()
+      );
     }
     if (s.keyIsDown(KeyCode.UP_ARROW)) {
-      game.handleKeyUp();
+      game.handleCommand(
+        new KeyUpCommand()
+      );
     }
     if (s.keyIsDown(KeyCode.RIGHT_ARROW)) {
-      game.handleKeyRight();
+      game.handleCommand(
+        new KeyRightCommand()
+      );
     }
     if (s.keyIsDown(KeyCode.DOWN_ARROW)) {
-      game.handleKeyDown();
+      game.handleCommand(
+        new KeyDownCommand()
+      );
     }
 
-    game.onTick();
+    game.handleCommand(
+      new TickCommand()
+    );
     game.draw();
   };
 
   s.keyPressed = () => {
     if (s.keyCode === KeyCode.ENTER) {
-      game.handleEnter();
+      game.handleCommand(
+        new EnterCommand()
+      );
     }
 
     if (s.keyCode === KeyCode.BACKSPACE) {
-      game.handleBackspace();
+      game.handleCommand(
+        new BackspaceCommand()
+      );
     }
 
     if (s.keyCode >= 48 && s.keyCode <= 57 || s.keyCode >= 96 && s.keyCode <= 105) {
-      game.handleNumber(s.key);
+      game.handleCommand(
+        new KeyNumericCommand(s.key)
+      );
     }
   };
 };
