@@ -1,5 +1,5 @@
 import { RocketInterface } from './rocket.interface';
-import { Location } from '../location';
+import { Location } from '../Space/location';
 import { Planet } from '../planet';
 import { VectorInterface } from '../vector.interface';
 
@@ -13,7 +13,7 @@ export class Rocket implements RocketInterface {
   private readonly _forwardThrottleFactor = 0.1;
   private readonly _reverseTrustFactor = 0.05;
   private readonly _minSpeed = -1;
-  private readonly _maxSpeed = 2;
+  private readonly _maxSpeed = 20;
 
   private _speed: number;
   private _angle: number;
@@ -99,6 +99,22 @@ export class Rocket implements RocketInterface {
     let newY = this._location.y + dy;
 
     this._location = this._location.update(this._location.x, newY);
+  }
+
+  moveToEastRegion(): void {
+    this._location = this._location.update(0.1, this._location.y);
+  }
+
+  moveToNorthRegion(): void {
+    this._location = this._location.update(this._location.x, this.spaceHeight);
+  }
+
+  moveToSouthRegion(): void {
+    this._location = this._location.update(this._location.x, 0.1);
+  }
+
+  moveToWestRegion(): void {
+    this._location = this._location.update(this.spaceWidth, this._location.y);
   }
 
   minSpeed(): number {

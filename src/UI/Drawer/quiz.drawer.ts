@@ -1,5 +1,5 @@
 import * as p5 from 'p5';
-import { Canvas } from '../../Core/canvas';
+import { Space } from '../../Core/Space/space';
 import { GameState } from '../../Application/game-state';
 import { Drawer } from '../drawer.abstract';
 import { CanvasOffset } from '../../canvas-offset';
@@ -8,7 +8,7 @@ import { QuizInterface } from '../../Core/Quiz/quiz.interface';
 
 export class QuizDrawer extends Drawer {
     private quiz: QuizInterface;
-    private canvas: Canvas;
+    private canvas: Space;
     private p5: p5.p5InstanceExtensions;
     private answerInput: null | p5.Element;
 
@@ -19,7 +19,7 @@ export class QuizDrawer extends Drawer {
     private currentFuelLevel: number = 0;
     private assets: Assets;
 
-    constructor(quiz: QuizInterface, p5: p5, canvas: Canvas, assets: Assets) {
+    constructor(quiz: QuizInterface, p5: p5, canvas: Space, assets: Assets) {
         super();
         this.canvas = canvas;
         this.quiz = quiz;

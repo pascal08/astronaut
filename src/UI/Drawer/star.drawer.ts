@@ -1,14 +1,14 @@
 import * as p5 from 'p5';
 import { Star } from '../star';
 import { Drawer } from '../drawer.abstract';
-import { Canvas } from '../../Core/canvas';
+import { Space } from '../../Core/Space/space';
 
 export class StarDrawer extends Drawer {
     private stars: Array<Star> = [];
     private p5: p5.p5InstanceExtensions;
 
     constructor(
-      canvas: Canvas,
+      canvas: Space,
       p5: p5,
     ) {
         super();

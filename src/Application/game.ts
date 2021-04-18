@@ -1,6 +1,5 @@
 import * as p5 from 'p5';
-import { Canvas } from '../Core/canvas';
-import { GameState } from './game-state';
+import { Space } from '../Core/Space/space';
 import { Drawer } from '../UI/drawer';
 import { Assets } from '../index';
 import { CommandInterface } from './command.interface';
@@ -20,6 +19,7 @@ import { KeyRightHandler } from './Handler/key-right.handler';
 import { KeyLeftHandler } from './Handler/key-left.handler';
 import { TickHandler } from './Handler/tick.handler';
 import { TickCommand } from './Command/tick.command';
+import { Canvas } from '../UI/canvas';
 
 export class Game {
 
@@ -27,14 +27,14 @@ export class Game {
 
   public static readonly _canvasWidth = 600;
   public static readonly _canvasHeight = 400;
-  private canvas: Canvas;
+
+  public static readonly _horizontalSpaceRegions = 10;
+  public static readonly _verticalSpaceRegions = 10;
 
   constructor(p5: p5, assets: Assets) {
-    this.canvas = new Canvas(Game._canvasWidth, Game._canvasHeight);
-
     this.drawer = new Drawer(
       p5,
-      this.canvas,
+      new Canvas(Game._canvasWidth, Game._canvasHeight),
       assets,
     );
   }
@@ -44,11 +44,11 @@ export class Game {
   }
 
   canvasWidth(): number {
-    return this.canvas.width;
+    return Game._canvasWidth;
   }
 
   canvasHeight(): number {
-    return this.canvas.height;
+    return Game._canvasHeight;
   }
 
   handleCommand(command: CommandInterface) {

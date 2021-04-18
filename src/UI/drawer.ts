@@ -2,7 +2,7 @@ import * as p5 from 'p5';
 import { QuizDrawer } from './Drawer/quiz.drawer';
 import { StarDrawer } from './Drawer/star.drawer';
 import { GameState } from '../Application/game-state';
-import { Canvas } from '../Core/canvas';
+import { Space } from '../Core/Space/space';
 import { RocketDrawer } from './Drawer/rocket.drawer';
 import { Drawer as DrawerAbstract } from './drawer.abstract';
 import { PlanetDrawer } from './Drawer/planet.drawer';
@@ -13,11 +13,11 @@ export class Drawer {
   private drawers: Map<string, DrawerAbstract> = new Map();
   private state: GameState;
   private p5: p5;
-  private canvas: Canvas;
+  private canvas: Space;
 
   constructor(
     p5: p5,
-    canvas: Canvas,
+    canvas: Space,
     assets: Assets,
   ) {
     this.state = GameState.getInstance();

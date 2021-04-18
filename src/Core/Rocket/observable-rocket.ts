@@ -54,9 +54,23 @@ export class ObservableRocket implements RocketInterface, ObservableInterface {
   update(): void {
     this.rocket.update();
 
-    if (this.rocket.onPlanet()) {
-      this.publish();
-    }
+    this.publish();
+  }
+
+  moveToEastRegion(): void {
+    this.rocket.moveToEastRegion();
+  }
+
+  moveToNorthRegion(): void {
+    this.rocket.moveToNorthRegion();
+  }
+
+  moveToSouthRegion(): void {
+    this.rocket.moveToSouthRegion();
+  }
+
+  moveToWestRegion(): void {
+    this.rocket.moveToWestRegion();
   }
 
   onPlanet(): Planet | null {

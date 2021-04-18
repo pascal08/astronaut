@@ -1,4 +1,4 @@
-import { Location } from './location';
+import { Location } from './Space/location';
 
 export class Planet {
   private _location: Location;
