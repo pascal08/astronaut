@@ -1,4 +1,4 @@
-import { Question } from './question';
+import { Question } from '../question';
 import { QuizInterface } from './quiz.interface';
 
 export class Quiz implements QuizInterface {

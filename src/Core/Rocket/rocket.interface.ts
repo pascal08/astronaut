@@ -1,5 +1,5 @@
-import { Planet } from './planet';
-import { VectorInterface } from './vector.interface';
+import { VectorInterface } from '../vector.interface';
+import { Planet } from '../planet';
 
 export interface RocketInterface {
   goLeft(): void;

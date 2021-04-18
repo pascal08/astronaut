@@ -1,7 +1,7 @@
 import { QuizInterface } from './quiz.interface';
-import { ObservableInterface } from './observable.interface';
-import { ObserverInterface } from './observer.interface';
-import { Observable } from './observable';
+import { ObservableInterface } from '../observable.interface';
+import { ObserverInterface } from '../observer.interface';
+import { Observable } from '../observable';
 
 export class ObservableQuiz implements QuizInterface, ObservableInterface {
     private quiz: QuizInterface;

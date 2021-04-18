@@ -1,14 +1,14 @@
-import { QuizFactory } from '../Core/quiz.factory';
-import { Rocket } from '../Core/rocket';
+import { QuizFactory } from '../Core/Quiz/quiz.factory';
 import { Game } from './game';
-import { ObservableRocket } from '../Core/observable-rocket';
 import { RocketLandedObserver } from './Observers/rocket-landed.observer';
 import { Planet } from '../Core/planet';
-import { RocketInterface } from '../Core/rocket.interface';
-import { ObservableQuiz } from '../Core/observable-quiz';
+import { ObservableQuiz } from '../Core/Quiz/observable-quiz';
 import { QuizFinishedObserver } from './Observers/quiz-finished.observer';
-import { QuizInterface } from '../Core/quiz.interface';
+import { QuizInterface } from '../Core/Quiz/quiz.interface';
 import { QuizDrawer } from '../UI/Drawer/quiz.drawer';
+import { RocketInterface } from '../Core/Rocket/rocket.interface';
+import { ObservableRocket } from '../Core/Rocket/observable-rocket';
+import { Rocket } from '../Core/Rocket/rocket';
 
 export class GameState {
 

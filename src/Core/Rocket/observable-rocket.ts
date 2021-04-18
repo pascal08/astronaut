@@ -1,10 +1,10 @@
-import { ObservableInterface } from './observable.interface';
-import { Rocket } from './rocket';
-import { ObserverInterface } from './observer.interface';
-import { Planet } from './planet';
 import { RocketInterface } from './rocket.interface';
-import { VectorInterface } from './vector.interface';
-import { Observable } from './observable';
+import { ObservableInterface } from '../observable.interface';
+import { Observable } from '../observable';
+import { Planet } from '../planet';
+import { ObserverInterface } from '../observer.interface';
+import { VectorInterface } from '../vector.interface';
+import { Rocket } from './rocket';
 
 export class ObservableRocket implements RocketInterface, ObservableInterface {
   private rocket: Rocket;

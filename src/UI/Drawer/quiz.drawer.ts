@@ -4,7 +4,7 @@ import { GameState } from '../../Application/game-state';
 import { Drawer } from '../drawer.abstract';
 import { CanvasOffset } from '../../canvas-offset';
 import { Assets } from '../../index';
-import { QuizInterface } from '../../Core/quiz.interface';
+import { QuizInterface } from '../../Core/Quiz/quiz.interface';
 
 export class QuizDrawer extends Drawer {
     private quiz: QuizInterface;

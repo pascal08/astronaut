@@ -1,6 +1,6 @@
 import * as p5 from 'p5';
 import { Drawer } from '../drawer.abstract';
-import { RocketInterface } from '../../Core/rocket.interface';
+import { RocketInterface } from '../../Core/Rocket/rocket.interface';
 
 export class RocketDrawer extends Drawer {
     private p5: p5;

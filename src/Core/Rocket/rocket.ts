@@ -1,7 +1,7 @@
-import { Location } from './location';
 import { RocketInterface } from './rocket.interface';
-import { Planet } from './planet';
-import { VectorInterface } from './vector.interface';
+import { Location } from '../location';
+import { Planet } from '../planet';
+import { VectorInterface } from '../vector.interface';
 
 export class Rocket implements RocketInterface {
   /**
@@ -37,7 +37,7 @@ export class Rocket implements RocketInterface {
       0,
       this.spaceWidth,
       0,
-      this.spaceHeight
+      this.spaceHeight,
     );
     this._angle = 0;
     this._speed = 0;
@@ -47,7 +47,7 @@ export class Rocket implements RocketInterface {
       new Planet(
         new Location(200, 100),
         30,
-      )
+      ),
     );
     this._planets.push(
       new Planet(
