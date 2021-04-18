@@ -27,14 +27,14 @@ export class Location {
     return new Location(x, y, this.xMin, this.xMax, this.yMin, this.yMax);
   }
 
-  private static constrain(x: number, min: number | null, max: number | null) {
-    if (min !== null && x < min) {
+  private static constrain(v: number, min: number | null, max: number | null) {
+    if (min !== null && v < min) {
       return min;
     }
-    if (max !== null && x > max) {
+    if (max !== null && v > max) {
       return max;
     }
 
-    return x;
+    return v;
   }
 }
