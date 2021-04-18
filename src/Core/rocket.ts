@@ -4,34 +4,26 @@ import { Planet } from './planet';
 import { VectorInterface } from './vector.interface';
 
 export class Rocket implements RocketInterface {
-  private readonly _forwardThrottleFactor = 0.1;
-
-  private readonly _reverseTrustFactor = 0.05;
-
   /**
    * This factor determines the sensitivity of steering the
    * rocket through space. The lower the factor the more
    * sensitive the steering will be.
    */
   private readonly _directionalSensitivityFactor = 20;
-
-  /**
-   * This factor determines the rate at which the speed of
-   * the rocket will decay per time unit.
-   */
-  private readonly _speedDecayFactor = 0.01;
+  private readonly _forwardThrottleFactor = 0.1;
+  private readonly _reverseTrustFactor = 0.05;
+  private readonly _minSpeed = -1;
+  private readonly _maxSpeed = 2;
 
   private _speed: number;
   private _angle: number;
   private _scale: number = 0.5;
 
-  private _location: Location;
-
   private spaceWidth: number;
-
   private spaceHeight: number;
-  private _onPlanet: Planet | null;
 
+  private _location: Location;
+  private _onPlanet: Planet | null;
   private _distanceToNearestPlanet: number = Infinity;
 
   private readonly _planets: Array<Planet> = [];
@@ -48,7 +40,7 @@ export class Rocket implements RocketInterface {
       this.spaceHeight
     );
     this._angle = 0;
-    this._speed = 1;
+    this._speed = 0;
     this._onPlanet = null;
 
     this._planets.push(
@@ -76,21 +68,22 @@ export class Rocket implements RocketInterface {
   goUp(): void {
     this._speed += this._forwardThrottleFactor;
 
-    if (this._speed > 2) {
-      this._speed = 2;
+    if (this._speed > this._maxSpeed) {
+      this._speed = this._maxSpeed;
     }
   }
+
 
   goDown(): void {
     this._speed -= this._reverseTrustFactor;
 
-    if (this._speed < -1) {
-      this._speed = -1;
+    if (this._speed < this._minSpeed) {
+      this._speed = this._minSpeed;
     }
   }
 
   private drift(): void {
-    const {x, y} = this.speed();
+    const {x, y} = this.speedVector();
 
     this.adjustOffsetX(x);
     this.adjustOffsetY(-y);
@@ -108,7 +101,19 @@ export class Rocket implements RocketInterface {
     this._location = this._location.update(this._location.x, newY);
   }
 
-  speed(): VectorInterface {
+  minSpeed(): number {
+    return this._minSpeed;
+  }
+
+  maxSpeed(): number {
+    return this._maxSpeed;
+  }
+
+  speed(): number {
+    return this._speed;
+  }
+
+  speedVector(): VectorInterface {
     const x = Math.sin(this._angle) * this._speed;
     const y = Math.cos(this._angle) * this._speed;
     return {x, y};

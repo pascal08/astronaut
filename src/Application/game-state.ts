@@ -8,6 +8,7 @@ import { RocketInterface } from '../Core/rocket.interface';
 import { ObservableQuiz } from '../Core/observable-quiz';
 import { QuizFinishedObserver } from './Observers/quiz-finished.observer';
 import { QuizInterface } from '../Core/quiz.interface';
+import { QuizDrawer } from '../UI/Drawer/quiz.drawer';
 
 export class GameState {
 
@@ -78,10 +79,7 @@ export class GameState {
       quiz,
     );
 
-    let quizFinishedObserver = new QuizFinishedObserver();
-    observableQuiz.subscribe(
-      quizFinishedObserver,
-    );
+    observableQuiz.subscribe(new QuizFinishedObserver());
 
     return observableQuiz;
   }

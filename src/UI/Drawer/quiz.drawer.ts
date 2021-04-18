@@ -12,10 +12,11 @@ export class QuizDrawer extends Drawer {
     private p5: p5.p5InstanceExtensions;
     private answerInput: null | p5.Element;
 
-    private readonly _fuelTurbulence: number = 25;
+    private readonly _fuelTurbulence: number = 10;
     private readonly _fuelTankHeight = 300;
     private readonly _fuelTankWidth = 30;
     private yoff: number = 0;
+    private currentFuelLevel: number = 0;
     private assets: Assets;
 
     constructor(quiz: QuizInterface, p5: p5, canvas: Canvas, assets: Assets) {
@@ -43,7 +44,7 @@ export class QuizDrawer extends Drawer {
         this.p5.stroke(50);
         this.p5.strokeWeight(4);
         this.p5.fill(255, 255, 255);
-        this.p5.rect(50, 50, 30, this._fuelTankHeight);
+        this.p5.rect(50 - 2, 50 - 2, 30 + 4, this._fuelTankHeight + 4);
     }
 
     private drawFuel(): void {
@@ -53,25 +54,52 @@ export class QuizDrawer extends Drawer {
 
         this.p5.strokeWeight(1);
         this.p5.fill(255, 204, 0, 155);
-        this.p5.beginShape();
+
+
         let xoff = 0;
-        const averageFuelLevel = this._fuelTankHeight - this._fuelTankHeight * quiz.percentageCompleted();
-        const minFuelLevel = averageFuelLevel - this._fuelTurbulence;
-        const maxFuelLevel = averageFuelLevel + this._fuelTurbulence;
-        for (let x = 0; x <= this._fuelTankWidth; x += 10) {
-            let y = this.p5.map(this.p5.noise(xoff, this.yoff), 0, 1, minFuelLevel, maxFuelLevel);
+        const newFuelLevel = this._fuelTankHeight * quiz.percentageCompleted() + 0.1 * this._fuelTankHeight;
+        if (this.currentFuelLevel > newFuelLevel) {
+            this.currentFuelLevel = 0;
+        }
+        if (this.currentFuelLevel < newFuelLevel) {
+            this.currentFuelLevel += 2;
+        }
+        const minFuelLevel = this.currentFuelLevel - this._fuelTurbulence;
+        const maxFuelLevel = this.currentFuelLevel + this._fuelTurbulence;
+        let yExcess = 0;
+        let waveCoordinates: Array<{x: number, y: number}> = [];
+        let stepSize = 10;
+        for (let x = 0; x <= this._fuelTankWidth; x += stepSize) {
+            let noise = this.p5.noise(xoff, this.yoff);
+            let y = this.p5.map(noise, 0, 1, minFuelLevel, maxFuelLevel);
             if (y > this._fuelTankHeight) {
                 y = this._fuelTankHeight;
             }
             if (y < 0) {
                 y = 0;
             }
-            this.p5.vertex(canvasOffset.offsetX + x, canvasOffset.offsetY + y);
-            xoff += 0.05;
+            yExcess += y - this.currentFuelLevel;
+            waveCoordinates.push({x, y, })
+            xoff += 0.15;
         }
+        let yAverageExcess = yExcess / (this._fuelTankWidth / stepSize);
         this.yoff += 0.01;
-        this.p5.vertex(canvasOffset.offsetX + this._fuelTankWidth, canvasOffset.offsetY + this._fuelTankHeight);
-        this.p5.vertex(canvasOffset.offsetX, canvasOffset.offsetY + this._fuelTankHeight);
+
+        this.p5.beginShape();
+        for (const waveCoordinate of waveCoordinates) {
+            this.p5.vertex(
+              canvasOffset.offsetX + waveCoordinate.x,
+              canvasOffset.offsetY + this._fuelTankHeight - waveCoordinate.y + yAverageExcess
+            );
+        }
+        this.p5.vertex(
+          canvasOffset.offsetX + this._fuelTankWidth,
+          canvasOffset.offsetY + this._fuelTankHeight
+        );
+        this.p5.vertex(
+          canvasOffset.offsetX,
+          canvasOffset.offsetY + this._fuelTankHeight
+        );
         this.p5.endShape(this.p5.CLOSE);
     }
 

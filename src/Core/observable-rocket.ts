@@ -75,8 +75,20 @@ export class ObservableRocket implements RocketInterface, ObservableInterface {
     this.observable.unsubscribe(observer);
   }
 
-  speed(): VectorInterface {
+  minSpeed(): number {
+    return this.rocket.minSpeed();
+  }
+
+  maxSpeed(): number {
+    return this.rocket.maxSpeed();
+  }
+
+  speed(): number {
     return this.rocket.speed();
+  }
+
+  speedVector(): VectorInterface {
+    return this.rocket.speedVector();
   }
 
   distanceToNearestPlanet(): number {

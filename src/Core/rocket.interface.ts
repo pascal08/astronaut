@@ -10,7 +10,13 @@ export interface RocketInterface {
 
   goDown(): void;
 
-  speed(): VectorInterface;
+  speed(): number;
+
+  minSpeed(): number;
+
+  maxSpeed(): number;
+
+  speedVector(): VectorInterface;
 
   offsetX(): number;
 
