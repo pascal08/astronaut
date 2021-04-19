@@ -21,7 +21,6 @@ export class Map {
   }
 
   moveToEastRegion() {
-    console.log(this._activeRegionIndex);
     if (this._activeRegionIndex % this._horizontalSpaceRegions === this._horizontalSpaceRegions - 1) {
       return false;
     }
@@ -31,7 +30,6 @@ export class Map {
   }
 
   moveToNorthRegion() {
-    console.log(this._activeRegionIndex);
     if (this._activeRegionIndex < this._horizontalSpaceRegions) {
       return false;
     }
@@ -41,7 +39,6 @@ export class Map {
   }
 
   moveToWestRegion() {
-    console.log(this._activeRegionIndex);
     if (this._activeRegionIndex % this._horizontalSpaceRegions === 0) {
       return false;
     }
@@ -51,12 +48,31 @@ export class Map {
   }
 
   moveToSouthRegion() {
-    console.log(this._activeRegionIndex);
-    if (this._activeRegionIndex > this._regions.length - this._horizontalSpaceRegions) {
+    if (this._activeRegionIndex >= this._regions.length - this._horizontalSpaceRegions) {
       return false;
     }
 
     this._activeRegionIndex += this._horizontalSpaceRegions;
     return true;
+  }
+
+  regions() {
+    return this._regions;
+  }
+
+  verticalSpaceRegions() {
+    return this._verticalSpaceRegions;
+  }
+
+  horizontalSpaceRegions() {
+    return this._horizontalSpaceRegions;
+  }
+
+  mapWidth() {
+    return this._regions[0].space().width * this._horizontalSpaceRegions;
+  }
+
+  mapHeight() {
+    return this._regions[0].space().height * this._verticalSpaceRegions;
   }
 }

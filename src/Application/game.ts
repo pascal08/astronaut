@@ -28,8 +28,8 @@ export class Game {
   public static readonly _canvasWidth = 600;
   public static readonly _canvasHeight = 400;
 
-  public static readonly _horizontalSpaceRegions = 10;
-  public static readonly _verticalSpaceRegions = 10;
+  public static readonly _horizontalSpaceRegions = 4;
+  public static readonly _verticalSpaceRegions = 4;
 
   constructor(p5: p5, assets: Assets) {
     this.drawer = new Drawer(

@@ -43,18 +43,18 @@ export class Rocket implements RocketInterface {
     this._speed = 0;
     this._onPlanet = null;
 
-    this._planets.push(
-      new Planet(
-        new Location(200, 100),
-        30,
-      ),
-    );
-    this._planets.push(
-      new Planet(
-        new Location(500, 300),
-        20,
-      ),
-    );
+    // this._planets.push(
+    //   new Planet(
+    //     new Location(200, 100),
+    //     30,
+    //   ),
+    // );
+    // this._planets.push(
+    //   new Planet(
+    //     new Location(500, 300),
+    //     20,
+    //   ),
+    // );
   }
 
   goLeft(): void {

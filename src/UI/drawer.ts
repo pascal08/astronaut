@@ -7,6 +7,7 @@ import { RocketDrawer } from './Drawer/rocket.drawer';
 import { Drawer as DrawerAbstract } from './drawer.abstract';
 import { PlanetDrawer } from './Drawer/planet.drawer';
 import { Assets } from '../index';
+import { HudDrawer } from './Drawer/hud.drawer';
 
 export class Drawer {
 
@@ -28,6 +29,7 @@ export class Drawer {
     this.drawers.set('planet', new PlanetDrawer(this.state.rocket.planets(), this.p5, assets));
     this.drawers.set('quiz', new QuizDrawer(this.state.quiz, this.p5, this.canvas, assets));
     this.drawers.set('rocket', new RocketDrawer(this.state.rocket, this.p5));
+    this.drawers.set('hud', new HudDrawer(this.state.rocket, this.state.map, this.p5));
   }
 
   draw(): void {
@@ -39,12 +41,14 @@ export class Drawer {
       this.drawers.get('star')?.enable();
       this.drawers.get('rocket')?.enable();
       this.drawers.get('planet')?.enable();
+      this.drawers.get('hud')?.enable();
 
       this.drawers.get('quiz')?.disable();
     } else {
       this.drawers.get('star')?.enable();
       this.drawers.get('quiz')?.enable();
 
+      this.drawers.get('hud')?.disable();
       this.drawers.get('rocket')?.disable();
       this.drawers.get('planet')?.disable();
     }
